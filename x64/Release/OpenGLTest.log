@@ -1,3 +1,0 @@
-﻿  Main.cpp
-Main.obj : error LNK2001: неразрешенный внешний символ __imp_glClear.
-C:\Users\ClarVik\source\repos\OpenGLTest\x64\Release\OpenGLTest.exe : fatal error LNK1120: неразрешенных внешних элементов: 1

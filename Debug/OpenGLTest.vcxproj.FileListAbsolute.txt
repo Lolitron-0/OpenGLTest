@@ -1,2 +1,0 @@
-C:\Users\ClarVik\source\repos\OpenGLTest\Debug\OpenGLTest.exe
-G:\dev\OpenGLTest\Debug\OpenGLTest.exe
