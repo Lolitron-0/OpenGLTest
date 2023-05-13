@@ -16,9 +16,10 @@ class CameraBase
 public:
 
 	CameraBase(glm::vec3 position, glm::vec3 worldUp, float pitch, float yaw);
-	glm::mat4 getViewMatrix();
+	glm::mat4 getViewMatrix() const;
 
-	glm::vec3 getPosition();
+	glm::vec3 getPosition() const;
+	glm::vec3 getLookDirection() const;
 
 	virtual void processMouseMove(float xOffset, float yOffset, float timeScale) =0;
 	virtual void processKeyboard(CameraMovementDirection direction, float timeScale) =0;

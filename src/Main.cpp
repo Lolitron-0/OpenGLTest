@@ -9,10 +9,12 @@
 #include "Shader.hpp"
 #include <include/FlyCamera.hpp>
 #include <include/ResourceManager.hpp>
-
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
 
 void processInput(GLFWwindow* window);
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
+template <class Vec> std::string vecToString(Vec v);
 
 void GLAPIENTRY errorCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
 	switch (severity)
@@ -33,11 +35,12 @@ void GLAPIENTRY errorCallback(GLenum source, GLenum type, GLuint id, GLenum seve
 		std::cout << "Unknown severity " << severity << " >> ";
 		break;
 	}
-	std::cout << message << std::endl;
+	std::cout << message << std::endl ;
 	if (severity == GL_DEBUG_SEVERITY_HIGH)
 		__debugbreak();
 }
 
+#pragma comment(lib, "glfw3.lib")
 
 FlyCamera camera(glm::vec3(0.f, 1.f, 5.f), glm::vec3(0.f, 1.f, 0.f));
 
@@ -74,6 +77,9 @@ int main(void)
     std::cout << glGetString(GL_VERSION) << std::endl;
 
 
+	
+	glEnable(GL_DEBUG_OUTPUT);
+	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(&errorCallback, nullptr);
 
 
@@ -222,7 +228,7 @@ int main(void)
 		
 		//model = glm::rotate(model, glm::radians(50.f * timeScale), glm::vec3(1.f, 1.f, 1.f));
 
-		lightPos.x = 1.5f * sin(glfwGetTime()*2);
+		lightPos.x = 1.3f * sin(glfwGetTime()*2);
 		lightPos.y = 1.5f * cos(glfwGetTime()*2);
 
 		glm::vec3 lightColor(1.f);
@@ -234,8 +240,15 @@ int main(void)
 		phong.setVec3("light.diffuse", lightDiffuse);
 
 		phong.setVec3("viewPos", camera.getPosition());
-		phong.setVec3("light.direction", glm::vec3(-1.f));
+		//phong.setVec3("light.direction", camera.getLookDirection());
+		phong.setVec3("light.position", lightPos);
+		phong.setFloat("light.constant", 1.f);
+		phong.setFloat("light.linear", 0.14f);
+		phong.setFloat("light.quadratic", 0.07f);
+		//phong.setFloat("light.innerCutoff", glm::cos(glm::radians(12.5f)));
+		//phong.setFloat("light.outerCutoff", glm::cos(glm::radians(17.5f)));
 		phong.setMat4("model", model);
+		phong.setMat3("normalModel", glm::mat3(glm::transpose(glm::inverse(model))));
 		phong.setMat4("view", view);
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -298,4 +311,10 @@ void mouseCallback(GLFWwindow* window, double xPos, double yPos)
 
 	lastMouseX = xPos;
 	lastMouseY = yPos;
+}
+
+template<class Vec>
+std::string vecToString(Vec v)
+{
+	return std::to_string(v.x) + ' ' + std::to_string(v.y) + ' ' + std::to_string(v.z);
 }

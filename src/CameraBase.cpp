@@ -6,14 +6,19 @@ CameraBase::CameraBase(glm::vec3 position, glm::vec3 worldUp, float pitch, float
 	updateCamera();
 }
 
-glm::mat4 CameraBase::getViewMatrix()
+glm::mat4 CameraBase::getViewMatrix() const
 {
 	return glm::lookAt(mPosition, mPosition + mFront, mUp);
 }
 
-glm::vec3 CameraBase::getPosition()
+glm::vec3 CameraBase::getPosition() const
 {
 	return mPosition;
+}
+
+glm::vec3 CameraBase::getLookDirection() const
+{
+	return mFront;
 }
 
 void CameraBase::updateCamera()
