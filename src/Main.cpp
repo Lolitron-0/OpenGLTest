@@ -188,8 +188,8 @@ int main(void)
 
 	phong.use();
 	phong.setMat4("projection", projection);
-	phong.setInt("material.diffuse", 0);
-	phong.setInt("material.specular", 1);
+	phong.setInt("material.diffuseMap1", 0);
+	phong.setInt("material.specularMap1", 1);
 	phong.setFloat("material.shininess", 32.0f);
 	phong.setVec3("light.ambient", .2f, .2f, .2f);
 	phong.setVec3("light.diffuse", .5f, .5f, .5f);
